@@ -1,9 +1,23 @@
+import { RequestUser } from "../middlewares/auth.js";
 import UserService from "../services/UserService.js";
 import { Request, Response } from "express";
 
 export default class UserController {
     constructor(private userService: UserService){}
-
+    async login(req:Request, res:Response){
+        try{
+            const {email, senha} = req.body
+            const user = await this.userService.getUser(email, senha)
+            res.status(200).json({
+                user
+            })
+        }catch(error){
+            const message = error instanceof Error ? error.message : 'Erro desconhecido ao tentar fazer login!';
+            res.status(400).json({
+                error: "Erro ao tentar fazer login: \n" + message
+            })
+        }
+    }
     async register(req: Request, res: Response){
         try{
             const {nome, email, senha} = req.body
@@ -28,6 +42,15 @@ export default class UserController {
                 error: "Erro: " + error + "\nAo buscar usuários!"
             })
         }
+    }
+
+    async getMe(req:Request, res: Response){
+        const reqUser = req as RequestUser
+        const userEmail = reqUser.user?.id
+        const userData = this.userService.getProfile(userEmail)
+        res.status(200).json({
+            userData
+        })
     }
 
     async updateUser(req: Request, res: Response){

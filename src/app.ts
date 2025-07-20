@@ -1,14 +1,16 @@
 import express from 'express';
 import userRoutes from './routes/UserRoutes.js';
 import dotenv from 'dotenv';
-import swaggerJSDoc from 'swagger-jsdoc'
-import swaggerUi from 'swagger-ui-express'
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
-const app = express()
-dotenv.config
-const port = process.env.PORT || 8080
+dotenv.config()
+
+const app = express();
+const port = process.env.PORT || 8080;
+
 const swaggerDefinition = {
-    openapi: '3.0.0',
+  openapi: '3.0.0',
   info: {
     title: 'Swagger',
     version: '1.0.0',
@@ -19,23 +21,38 @@ const swaggerDefinition = {
       url: 'http://localhost:8080',
     },
   ],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+    },
+  },
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
 }
+
 const options = {
-    swaggerDefinition,
-    apis: ['./src/routes/*.ts']
+  swaggerDefinition,
+  apis: ['./src/routes/*.ts'],
 }
-const swaggerJsDoc = swaggerJSDoc(options)
 
-app.use(express.json())
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDoc));
+const swaggerJsDocs = swaggerJSDoc(options);
 
+app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDocs));
+app.use('/users', userRoutes)
 
 app.get('/', (req, res) => {
-    res.status(200).send("Ola mundo")
-})
+  res.status(200).send('Ola mundo')
+});
 
-app.listen(port, () => 
-    console.log(`Example app listening on port ${port}!\n`)
-)
-
-app.use("/users", userRoutes)
+app.listen(port, () => {
+  console.log(`Servidor rodando em http://localhost:${port}`)
+  console.log(`Swagger UI: http://localhost:${port}/api-docs`)
+});

@@ -18,11 +18,10 @@
 │   tsconfig.json
 │
 └───src
-    | helloworld.ts
-    | main.ts
+    | app.ts
     |
     └───controllers
-    └───db
+    └───repositories
     └───middlewares
     └───models
     └───routes

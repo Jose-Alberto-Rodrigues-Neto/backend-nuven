@@ -1,5 +1,6 @@
 import UserRepository from '../repositories/UserRepository.js';
 import bcrypt from 'bcrypt';
+import { generateToken } from '../middlewares/auth.js';
 
 const SALT_ROUNDS = 12
 
@@ -16,11 +17,50 @@ export default class UserService{
         senha: string
     ){
         const encryptedPassword = await bcrypt.hash(senha, SALT_ROUNDS)
-        return this.userRepository.createUser(
+
+        const user = await this.userRepository.createUser(
             nome,
             email,
             encryptedPassword
         )
+
+        const token = await generateToken({userId: user.email})
+        
+        return {
+            user:{
+                id: user.id,
+                nome: user.nome,
+                email: user.email
+            },
+            token
+        }
+    }
+
+    async getUser(
+        email: string,
+        senha: string
+    ){
+        const user = await this.userRepository.searchEmail(email)
+        if(!user){
+            throw new Error("Email incorreto!")
+            return
+        }
+        const isEqual = await bcrypt.compare(senha, user.senha_hash)
+        if(!isEqual){
+            throw new Error("Senha incorreta!")
+            return 
+        }
+
+        const token = generateToken({userId: user.email})
+
+        return {
+            user:{
+                id: user.id,
+                nome: user.nome,
+                email: user.email
+            },
+            token
+        }
     }
     
     async updateUser(
@@ -38,6 +78,10 @@ export default class UserService{
         }
         throw new Error("Um dos campos {nome, email, senha} está vazio!")
         return
+    }
+
+    async getProfile(email: string){
+        return await this.userRepository.searchEmail(email)
     }
 
 }
