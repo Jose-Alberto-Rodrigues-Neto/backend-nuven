@@ -26,6 +26,7 @@ model User {
 model Dataset{
   id String @id @default(uuid())
   nome String
+  link String
   usuario_id String @unique
   usuario User @relation(fields: [usuario_id], references: [id])
   criado_em DateTime @default(now())
