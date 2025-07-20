@@ -24,7 +24,7 @@ export default class UserService{
             encryptedPassword
         )
 
-        const token = await generateToken({userId: user.email})
+        const token = await generateToken({userId: user.id})
         
         return {
             user:{
@@ -51,7 +51,7 @@ export default class UserService{
             return 
         }
 
-        const token = generateToken({userId: user.email})
+        const token = generateToken({userId: user.id})
 
         return {
             user:{
@@ -80,8 +80,17 @@ export default class UserService{
         return
     }
 
-    async getProfile(email: string){
-        return await this.userRepository.searchEmail(email)
+    async getProfile(userId: string){
+        return await this.userRepository.searchId(userId)
+    }
+
+    async getId(userId: string){
+        const user = await this.userRepository.searchId(userId)
+        if(!user){
+            throw new Error("Usuário não encontrado!")
+            return
+        }
+        return user.id
     }
 
 }

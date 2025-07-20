@@ -37,6 +37,12 @@ export default class UserRepository {
         return res;
     }
 
+    async searchId(id: string){
+        return await prisma.user.findUnique({
+            where:{id}
+        })
+    }
+
     async getUserPassword(email: string){
         const user = await this.searchEmail(email)
         if(!user) return null
