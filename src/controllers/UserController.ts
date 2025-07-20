@@ -46,8 +46,8 @@ export default class UserController {
 
     async getMe(req:Request, res: Response){
         const reqUser = req as RequestUser
-        const userEmail = reqUser.user?.id
-        const userData = this.userService.getProfile(userEmail)
+        const userId = reqUser.user?.id
+        const userData = this.userService.getProfile(userId)
         res.status(200).json({
             userData
         })
