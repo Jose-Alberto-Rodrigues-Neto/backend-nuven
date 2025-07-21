@@ -28,7 +28,7 @@ export default class DatasetController{
     async listAllRecordsByDatasetId(req: Request, res: Response){
         try{
             const {id} = req.params
-            const records = this.datasetService.listAllDatasetRecords(id)
+            const records = await this.datasetService.listAllDatasetRecords(id)
             res.status(200).json({
                 records
             })
