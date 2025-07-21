@@ -13,7 +13,7 @@ export default class DatasetController{
                 return
             }
             
-            const dataset = await this.datasetService.registerDataset(nome, user_id, file.path)
+            const dataset = await this.datasetService.registerDataset(nome, user_id, file.path, file.size)
 
             res.status(201).json({
                 dataset

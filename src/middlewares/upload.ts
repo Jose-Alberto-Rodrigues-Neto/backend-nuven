@@ -19,6 +19,16 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({storage})
+const fileFilter = (req, file, cb) => {
+    const allowedMimeTypes = ['text/csv', 'application/pdf']
+
+    if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true)
+    } else {
+        cb(new Error('Apenas arquivos .csv e .pdf são permitidos'), false)
+    }
+}
+
+const upload = multer({ storage, fileFilter })
 
 export default upload

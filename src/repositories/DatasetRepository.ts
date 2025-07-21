@@ -4,7 +4,8 @@ export default class DatasetRepository{
     async createDataset(
         usuario_id: string,
         nome: string,
-        link: string
+        link: string,
+        tamanho: number
     ){
         const user = await prisma.user.findUnique({
             where:{
@@ -22,6 +23,7 @@ export default class DatasetRepository{
                 data: {
                     nome,
                     link,
+                    tamanho,
                     usuario:{
                         connect: {id: usuario_id}
                     }
@@ -32,6 +34,17 @@ export default class DatasetRepository{
                 }
             }
         )
+    }
+
+    async createRecords(datasetId: string, records: any[]) {
+        const recordData = records.map((r) => ({
+            dataset_id: datasetId,
+            dados_json: r,
+        }));
+
+        return await prisma.record.createMany({
+            data: recordData,
+        });
     }
 
     async updateDataset(
