@@ -27,7 +27,7 @@ model Dataset{
   id String @id @default(uuid())
   nome String
   link String
-  usuario_id String @unique
+  usuario_id String
   usuario User @relation(fields: [usuario_id], references: [id])
   criado_em DateTime @default(now())
   records Record[]
@@ -43,7 +43,7 @@ model Record{
 
 model Query{
   id String @id @default(uuid())
-  usuario_id String @unique
+  usuario_id String
   usuario User @relation(fields: [usuario_id], references: [id])
   pergunta String
   resposta String
