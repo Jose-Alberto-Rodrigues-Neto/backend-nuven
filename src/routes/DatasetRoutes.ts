@@ -73,7 +73,7 @@ datasetRouter.get('/:id/records', authMiddleware, (req, res) => {
  *                 example: "Meu Dataset"
  *               user_id:
  *                 type: string
- *                 example: "user123"
+ *                 example: "634233ef-7623-4bcd-a3a6-ff08796a3a7f"
  *               file:
  *                 type: string
  *                 format: binary
@@ -92,6 +92,8 @@ datasetRouter.get('/:id/records', authMiddleware, (req, res) => {
  *                       type: string
  *                     criado_em:
  *                       type: string
+ *                     tamanho:
+ *                       typse: number
  *                     link:
  *                       type: string
  *                     records:
