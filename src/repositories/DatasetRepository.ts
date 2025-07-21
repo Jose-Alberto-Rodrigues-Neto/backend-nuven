@@ -6,6 +6,17 @@ export default class DatasetRepository{
         nome: string,
         link: string
     ){
+        const user = await prisma.user.findUnique({
+            where:{
+                id: usuario_id
+            }
+        })
+        
+        if(!user){
+            throw new Error("Usuário não existe!")
+            return
+        }
+
         return await prisma.dataset.create(
             {
                 data: {
@@ -54,6 +65,11 @@ export default class DatasetRepository{
                 }
             }
         )
+
+        if(!dataset.records){
+            throw new Error("Records is empty!")
+            return
+        }
 
         return dataset.records
     }

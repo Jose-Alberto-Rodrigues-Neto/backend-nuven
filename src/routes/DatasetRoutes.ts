@@ -3,6 +3,7 @@ import DatasetRepository from "../repositories/DatasetRepository.js";
 import DatasetService from "../services/DatasetService.js";
 import DatasetController from "../controllers/DatasetController.js";
 import { authMiddleware } from "../middlewares/auth.js";
+import upload from "../middlewares/upload.js";
 
 const datasetRouter = Router();
 const datasetRepository = new DatasetRepository();
@@ -104,7 +105,7 @@ datasetRouter.get('/:id/records', authMiddleware, (req, res) => {
  *       500:
  *         description: Erro interno ao criar dataset
  */
-datasetRouter.post('/upload', authMiddleware, (req, res) => datasetController.createDataset(req, res));
+datasetRouter.post('/upload', authMiddleware, upload.single('file'), (req, res) => datasetController.createDataset(req, res));
 
 /**
  * @swagger

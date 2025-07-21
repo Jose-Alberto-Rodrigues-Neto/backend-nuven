@@ -9,8 +9,8 @@ export default class DatasetService{
         link: string
     ){
         const dataset =  await this.datasetRepository.createDataset(
-            nome,
             usuario_id,
+            nome,
             link
         )
 
