@@ -47,18 +47,13 @@ export default class UserController {
     async getMe(req:Request, res: Response){
         const reqUser = req as RequestUser
         const userId = reqUser.user?.id
-        const userData = this.userService.getProfile(userId)
+        if (!userId) {
+            res.status(401).json({ error: 'Usuário não autenticado.' });
+            return
+        }
+        const user = await this.userService.getProfile(userId)
         res.status(200).json({
-            userData
+            user
         })
-    }
-
-    async updateUser(req: Request, res: Response){
-        const {nome, email, senha} = req.body;
-    }
-
-    async getUser(req: Request, res: Response){
-        const email = req.body
-
     }
 }

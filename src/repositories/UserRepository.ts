@@ -39,7 +39,11 @@ export default class UserRepository {
 
     async searchId(id: string){
         return await prisma.user.findUnique({
-            where:{id}
+            where:{id: id},
+            include:{
+                datasets: true,
+                queries: true
+            }
         })
     }
 

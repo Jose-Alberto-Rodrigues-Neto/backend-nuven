@@ -81,7 +81,8 @@ export default class UserService{
     }
 
     async getProfile(userId: string){
-        return await this.userRepository.searchId(userId)
+        const user = await this.userRepository.searchId(userId)
+        return user
     }
 
     async getId(userId: string){
@@ -90,7 +91,7 @@ export default class UserService{
             throw new Error("Usuário não encontrado!")
             return
         }
-        return user.id
+        return userId
     }
 
 }

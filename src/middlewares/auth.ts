@@ -49,9 +49,9 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
   const token = parts[1];
 
   try {
-    const decoded = verifyToken(token); // retorna TokenPayload
+    const decoded = verifyToken(token);
     const reqUser = req as RequestUser;
-    reqUser.user = { id: decoded.userId }; // Aqui está o id do usuário real
+    reqUser.user = { id: decoded.userId };
     next();
   } catch (error) {
     console.error("Erro ao verificar token:", error);
