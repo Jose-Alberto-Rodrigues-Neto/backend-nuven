@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import datasetRouter from './routes/DatasetRoutes.js';
+import recordsRouter from './routes/RecordsRoutes.js';
 
 dotenv.config()
 
@@ -49,6 +50,7 @@ app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDocs));
 app.use('/users', userRoutes)
 app.use('/datasets', datasetRouter)
+app.use('/records', recordsRouter)
 
 app.get('/', (req, res) => {
   res.status(200).send('Ola mundo')
