@@ -19,7 +19,7 @@ export interface RequestUser extends Request{
 }
 
 export function generateToken(payload: { userId: string }): string {
-  return jwt.sign(payload, secret, { expiresIn: '5m' });
+  return jwt.sign(payload, secret, { expiresIn: '1d' });
 }
 
 export function verifyToken(token: string): TokenPayload {
