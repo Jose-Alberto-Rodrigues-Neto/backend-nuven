@@ -1,34 +1,33 @@
-# A project using Node with TypeScript
+# Rode o projeto utilizando Docker
 
-### Install dependencys
+Após o download do repositório do Github verifique se seu docker está rodando corretamente, pois iremos utilizar apenas o docker para rodar todo o projeto.
 
-    npm install
+Após verificar que seu docker está funcionando de forma devida utilize o comando `docker compose up`. 
 
-### Run project
+Vale ressaltar que não recomendo utilizar o comando docker compose up -d, pois utilizar o terminal como forma de vizualizar os logs dos nossos containers docker irá facilitar no momento de saber se o código já está rodando, além de facilitar o acesso aos links principais (`Swagger Ui` e `localhost` corretos)
 
-    npm run dev
+```shell
+    # rode no seu terminal
+    docker compose ps # para verificar se seu docker está rodando normalmente
 
-### Repository Structure
-
-```bash
-│   .gitignore
-│   package-lock.json
-│   package.json
-│   README.md
-│   tsconfig.json
-│
-└───src
-    | app.ts
-    |
-    └───controllers
-    └───repositories
-    └───middlewares
-    └───models
-    └───routes
+    # logo após rode no seu terminal
+    docker compose up 
 ```
 
-Next steps:
-1. Run prisma dev to start a local Prisma Postgres server.
-2. Define models in the schema.prisma file.
-3. Run prisma migrate dev to migrate your local Prisma Postgres database.
-4. Tip: Explore how you can extend the ORM with scalable connection pooling, global caching, and a managed serverless Postgres database. Read: https://pris.ly/cli/beyond-orm
+Após rodar o comando espere que o setup do projeto no docker esteja completo, você saberá quando aparecer o texto abaixo no seu terminal.
+
+```shell
+    backend-server  | > ts@1.0.0 dev
+    backend-server  | > tsx src/app.ts
+    backend-server  |
+    backend-server  | [dotenv@17.2.0] injecting env (0) from .env (tip: 🔐 encrypt with dotenvx: https://dotenvx.com)
+    backend-server  | [dotenv@17.2.0] injecting env (0) from .env (tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild)
+    backend-server  | Servidor rodando em http://localhost:8080
+    backend-server  | Swagger UI: http://localhost:8080/api-docs
+```
+
+Pronto, seu projeto está rodando, agora basta acessar o link do Swagger UI para testar os endpoints.
+
+# Rode o projeto localmente
+
+*`escrever como rodar o projeto localmente amanhã`*
