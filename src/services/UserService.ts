@@ -82,7 +82,12 @@ export default class UserService{
 
     async getProfile(userId: string){
         const user = await this.userRepository.searchId(userId)
-        return user
+        return {
+            nome: user.nome,
+            email: user.email,
+            datasets: user.datasets,
+            queries: user.queries
+        }
     }
 
     async getId(userId: string){
