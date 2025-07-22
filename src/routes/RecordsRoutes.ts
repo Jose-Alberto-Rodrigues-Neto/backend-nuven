@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth.js";
-import upload from "../middlewares/upload.js";
 import RecordRepository from "../repositories/RecordRepository.js";
 import RecordService from "../services/RecordService.js";
 import RecordController from "../controllers/RecordController.js";
