@@ -19,7 +19,11 @@ export default class QueryService{
             return
         }
 
-        const prompt = `Procure informações referentes a: ${pergunta} e me responda utilizando os dados do meu arquivo escolhido. Dados: {nome: ${dataset.nome}, tamanho do arquivo: ${dataset.tamanho}, data de criação do arquivo: ${dataset.criado_em}}. dados do arquivo: ${dataset.records[0]} ${dataset.records[1]} ${dataset.records[2]} ${dataset.records[3]} ${dataset.records[4]}`
+        const registrosFormatados = dataset.records.slice(0, 5)
+                                                    .map((r, i) => `Registro ${i + 1}: ${JSON.stringify(r.dados_json)}`)
+                                                    .join("\n")
+
+        const prompt = `Procure informações referentes a: ${pergunta} e me responda utilizando os dados do meu arquivo escolhido. Dados: {nome: ${dataset.nome}, tamanho do arquivo: ${dataset.tamanho}, data de criação do arquivo: ${dataset.criado_em}}. dados do arquivo: ${registrosFormatados}`
         
         const resposta = await this.geminiService.gerarRespostaGemini(prompt)
 
@@ -28,10 +32,10 @@ export default class QueryService{
             return
         }
 
+        const query = await this.queryRepository.createQuery(pergunta, resposta, user_id)
+
         return{
-            pergunta,
-            resposta,
-            user_id
+            query
         }
 
     }
