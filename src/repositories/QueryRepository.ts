@@ -8,7 +8,9 @@ export default class QueryRepository{
     ){
         return await prisma.query.create({
             data:{
-                usuario_id: user_id,
+                usuario:{
+                    connect: {id: user_id}
+                },
                 pergunta: pergunta,
                 resposta: resposta 
             }
@@ -19,6 +21,17 @@ export default class QueryRepository{
         return await prisma.query.findMany({
             where:{
                 usuario_id: user_id
+            }
+        })
+    }
+
+    async getDataset(dataset_id: string){
+        return await prisma.dataset.findUnique({
+            where: {
+                id: dataset_id
+            },
+            include:{
+                records: true
             }
         })
     }
