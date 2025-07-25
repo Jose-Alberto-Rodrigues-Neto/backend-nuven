@@ -1,14 +1,8 @@
-echo "Cria migrations folder"
-mkdir -p prisma/migrations/0_init
+echo "Prisma migrate"
+npx prisma migrate dev --name init-dev
 
-echo "Roda migration diff"
-npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql
-
-echo "Roda migration resolve"
-npx prisma migrate resolve --applied 0_init
-
-echo "Gerando Prisma Client..."
+echo "Gerando Prisma Client"
 npx prisma generate
 
-echo "Iniciando servidor..."
-npx tsx src/app.ts
+echo "Iniciando servidor"
+npm run dev
