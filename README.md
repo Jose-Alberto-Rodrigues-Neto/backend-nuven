@@ -93,16 +93,12 @@ Logo após partimos para o processo de instalar as dependências e rodar o proje
     # Comando inicial
     npm install
 
-    mkdir -p prisma/migrations/0_init
-    npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql
-    npx prisma migrate resolve --applied 0_init
+    mkdir -p prisma/migrations
+    npx prisma migrate dev
     npx prisma generate
 
-    # Aplique as migrações necessárias para migrar suas tabelas para o seu banco de dados postgresql
-    npx prisma migrate dev
-
     # Logo após rode o projeto utilizando o comando
-    npx tsx src/app.ts
+    npm run dev
 ```
 
 Pronto, agora espere seu projeto rodar e acesse o link do [Swagger UI](http://localhost:8080/api-docs) para testar os endpoints.
