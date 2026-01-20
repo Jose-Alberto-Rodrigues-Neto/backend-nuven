@@ -1,104 +1,146 @@
-# Rode o projeto utilizando Docker
+# Backend Nuvén
 
-Inicialmente você precisará gerar uma chave para a api do gemini e colocar ela no seu .env, sem ela não será possível rodar o código.
+Backend service built with Node.js and TypeScript that integrates PostgreSQL and Google Gemini AI to provide intelligent responses through a REST API. The entire environment runs using Docker and Docker Compose, with Prisma as the ORM for database management.
 
-### `Não esqueça de colocar sua api_key e seu modelo utilizado do Gemini`
+---
 
-```shell
-    # Seu .env deve estar exatamente assim para rodar da maneira correta utilizando o docker, que no caso é o .env padrão do projeto, porém se não estiver da forma que está abaixo, apenas copie e cole no seu .env que irá funcionar
+## 🚀 Technologies
 
-    # Variáveis do banco
-    POSTGRES_USER=user
-    POSTGRES_PASSWORD=pgpassword
-    POSTGRES_DB=postgredb
-    POSTGRES_HOST=database
-    POSTGRES_PORT=5432
+- Node.js
+- TypeScript
+- PostgreSQL
+- Prisma ORM
+- Docker & Docker Compose
+- Google Gemini API
+- Swagger (API Documentation)
 
-    # Prisma
-    DATABASE_URL=postgresql://user:pgpassword@database:5432/postgredb?schema=public
+---
 
-    # App
-    PORT=8080
-    JWT_SECRET=jsonwebtokensecret
-    NODE_ENV=development
+## 🧠 Architecture Overview
 
-    # Gemini
-    GEMINI_API_KEY=coloque sua apikey do gemini aqui # Não esqueça de colocar sua api_key
-    GEMINI_MODEL=coloque o modelo que você está utilizando para fazer requisições no gemini aqui # Não esqueça de colocar seu modelo
+The system is composed of:
+
+### 1. API Server
+- Built with Node.js and TypeScript
+- Exposes REST endpoints
+- Handles authentication and business logic
+- Integrates with Gemini AI
+
+### 2. Database
+- PostgreSQL running in Docker
+- Managed via Prisma ORM
+
+### 3. AI Integration
+- Google Gemini API
+- Used to generate intelligent responses and process natural language
+
+---
+
+## 📦 Project Structure
+
+```
+backend-nuven/
+│
+├── prisma/              # Prisma schema and migrations
+├── src/                 # Application source code
+├── .dockerignore
+├── .env.example         # Environment variables example
+├── Dockerfile
+├── docker-compose.yml
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
-Após o download do repositório do Github verifique se seu docker está rodando corretamente, pois iremos utilizar apenas o docker para rodar todo o projeto.
+---
 
-Após verificar que seu docker está funcionando de forma devida utilize o comando `docker compose up`. 
+## 🛠️ How to Run
 
-Vale ressaltar que não recomendo utilizar o comando docker compose up -d, pois utilizar o terminal como forma de vizualizar os logs dos nossos containers docker irá facilitar no momento de saber se o código já está rodando, além de facilitar o acesso aos links principais (`Swagger Ui` e `localhost` corretos)
+### Prerequisites
 
-```shell
-    # rode no seu terminal
-    docker compose ps # para verificar se seu docker está rodando normalmente
+- Docker
+- Docker Compose
+- A valid Google Gemini API Key
 
-    # logo após rode no seu terminal
-    docker compose up 
+### Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Jose-Alberto-Rodrigues-Neto/backend-nuven.git
+cd backend-nuven
 ```
 
-Após rodar o comando espere que o setup do projeto no docker esteja completo, você saberá quando aparecer o texto abaixo no seu terminal.
+2. Create a `.env` file based on `.env.example` and fill in:
 
-```shell
-    backend-server  | > ts@1.0.0 dev
-    backend-server  | > tsx src/app.ts
-    backend-server  |
-    backend-server  | [dotenv@17.2.0] injecting env (0) from .env (tip: 🔐 encrypt with dotenvx: https://dotenvx.com)
-    backend-server  | [dotenv@17.2.0] injecting env (0) from .env (tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild)
-    backend-server  | Servidor rodando em http://localhost:8080
-    backend-server  | Swagger UI: http://localhost:8080/api-docs
+```env
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=backendnuven
+DATABASE_URL=postgresql://postgres:postgres@database:5432/backendnuven
+
+PORT=8080
+JWT_SECRET=your_jwt_secret
+
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=your_gemini_model
 ```
 
-Pronto, seu projeto está rodando, agora basta acessar o link do [Swagger UI](http://localhost:8080/api-docs) para testar os endpoints.
+3. Start the application:
 
-# Rode o projeto localmente
-
-Caso não queira rodar o projeto pelo docker você deve inicialmente `mudar o seu arquivo .env`.
-
-```shell
-    # Seu .env deve estar exatamente assim para rodar da maneira correta localmente, então caso queira rodar localmente copie e cole no seu .env
-
-    # Variáveis do banco
-    POSTGRES_USER=user
-    POSTGRES_PASSWORD=pgpassword
-    POSTGRES_DB=postgredb
-    POSTGRES_HOST=database
-    POSTGRES_PORT=5432
-
-    # Prisma
-    DATABASE_URL=postgresql://user:pgpassword@localhost:5432/postgredb?schema=public
-
-    # App
-    PORT=8080
-    JWT_SECRET=jsonwebtokensecret
-    NODE_ENV=development
-
-    # Gemini
-    GEMINI_API_KEY=coloque sua apikey do gemini aqui # Não esqueça de colocar sua api_key
-    GEMINI_MODEL=coloque o modelo que você está utilizando para fazer requisições no gemini aqui # Não esqueça de colocar seu modelo
+```bash
+docker compose up --build
 ```
 
-Após criar seu .env, eu recomendo que você inicie criando seu banco de dados usando o docker com o comando abaixo
+4. Access the API:
 
-```shell
-    docker compose up database -d # Importante utilizar o [database] para não rodar o container docker do backend
+```
+http://localhost:8080
 ```
 
-Logo após partimos para o processo de instalar as dependências e rodar o projeto
-```shell
-    # Comando inicial
-    npm install
+Swagger UI:
 
-    mkdir -p prisma/migrations
-    npx prisma migrate dev
-    npx prisma generate
-
-    # Logo após rode o projeto utilizando o comando
-    npm run dev
+```
+http://localhost:8080/api-docs
 ```
 
-Pronto, agora espere seu projeto rodar e acesse o link do [Swagger UI](http://localhost:8080/api-docs) para testar os endpoints.
+---
+
+## 🔁 Example Request
+
+```http
+POST /ai/chat
+{
+  "message": "Hello, what can you do?"
+}
+```
+
+---
+
+## 🎯 Project Purpose
+
+This project aims to demonstrate:
+
+- Integration of modern AI (LLM) services into backend systems
+- Clean architecture using TypeScript and Docker
+- Secure and scalable API design
+- Practical use of ORM and relational databases
+
+---
+
+## 📚 Future Improvements
+
+- Conversation history persistence
+- WebSocket or SSE for streaming responses
+- User authentication and role management
+- Multi-model AI support
+- Frontend integration
+
+---
+
+## 👨‍💻 Author
+
+José Alberto Rodrigues Neto  
+Fullstack Developer  
+
+GitHub: https://github.com/Jose-Alberto-Rodrigues-Neto  
